@@ -1,0 +1,6 @@
+package zad1;import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.net.URL;import java.util.Arrays;import java.util.Comparator;import java.util.stream.Collectors;
+import java.util.List;public class Main{public static void main(String[]args)throws IOException {URL url=new URL("http://wiki.puzzlers.org/pub/wordlists/unixdict.txt");
+    InputStreamReader inputStreamReader=new InputStreamReader(url.openStream());BufferedReader bufferedReader=new BufferedReader(inputStreamReader);List<String>list=bufferedReader.lines().toList();
+    int max=list.stream().collect(Collectors.groupingBy(e->{char[] tab=e.toLowerCase().toCharArray();Arrays.sort(tab);return new String(tab);},Collectors.toList())).values().stream().map(List::size)
+            .max(Integer::compareTo).orElse(0);list.stream().collect(Collectors.groupingBy(e->{char[] tab=e.toLowerCase().toCharArray();Arrays.sort(tab);return new String(tab);},Collectors.toList())).entrySet().stream()
+            .filter(e->e.getValue().size()==max).sorted(Comparator.comparing(o->o.getValue().get(0))).forEach((e)-> {for(String s:e.getValue()){System.out.print(s+" ");}System.out.println();});}}
